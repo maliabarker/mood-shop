@@ -2,6 +2,29 @@ import data from './data.js'
 
 const itemsContainer = document.querySelector('#items');
 
+const cart = [];
+
+const obj = {name:"shoe", price: 9.99, qty: 3}
+// console.log(obj);
+// console.log(obj.name);
+// console.log(obj.price);
+// console.log(obj.qty);
+// console.log(obj.price * obj.qty);
+
+function addItem(name, price, qty) {
+	const item = {name:name, price:price, qty:qty};
+	cart.push(item);
+};
+
+function showItems() {
+	console.log(`You have ${cart.length} items in your cart`);
+};
+
+addItem('apple', 0.99, 1);
+addItem('orange', 1.29, 1);
+
+showItems();
+
 // the length of our data determines how many times this loop goes around
 for (let i = 0; i < data.length; i += 1) {
 	// create a new div element and give it a class name
@@ -40,5 +63,5 @@ for (let i = 0; i < data.length; i += 1) {
 
 
 	console.log(newDiv);
-}
 
+};
