@@ -13,6 +13,8 @@ const cart = [];
 // console.log(obj);
 // console.log("***************************");
 
+// ---------------------------------------------
+// Add Items
 function addItem(name, price, qty) {
 	for (let i = 0; i < cart.length; i += 1) {
 		if (cart[i].name === name) {
@@ -24,7 +26,8 @@ function addItem(name, price, qty) {
 	cart.push(item);
 };
 
-//Show Items
+// ---------------------------------------------
+// Show Items
 function showItems() {
 	const qty = getQty();
 	console.log(`You have ${qty} items in your cart`);
@@ -36,6 +39,7 @@ function showItems() {
 	console.log(`Your total in cart: $${getTotal()}`);
 };
 
+// ---------------------------------------------
 // Get Qty
 function getQty() {
 	let qty = 0;
@@ -45,6 +49,7 @@ function getQty() {
 	return qty;
 };
 
+// ---------------------------------------------
 // Get Total
 function getTotal() {
 	let total = 0;
@@ -54,6 +59,25 @@ function getTotal() {
 	return total.toFixed(2);
 };
 
+// ---------------------------------------------
+// Remove Item
+function removeItem(name, qty = 0) {
+	for (let i = 0; i < cart.length; i += 1) {
+		if (cart[i].name === name) {
+			if (qty > 0) {
+				cart[i].qty -= qty;
+			};
+
+			if (cart[i].qty < 1 || qty === 0) {
+				cart.splice(i, 1);
+			};
+			return
+		};
+	};
+};
+
+// ---------------------------------------------
+// ---------------------------------------------
 addItem('apple', 0.99);
 addItem('orange', 1.29);
 addItem('opinion', 0.02);
@@ -61,6 +85,9 @@ addItem('apple', 0.99);
 addItem('frisbee', 9.92);
 addItem('apple', 0.99);
 addItem('orange', 1.29);
+
+removeItem('frisbee')
+removeItem('apple', 1)
 
 showItems();
 
