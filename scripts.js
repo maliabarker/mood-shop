@@ -42,7 +42,7 @@ function addItem(name, price, qty) {
 // Show Items
 function showItems() {
 	const qty = getQty();
-	// console.log(`You have ${qty} items in your cart`);
+	//displays quantity of items on page
 	cartQty.innerHTML = `You have ${qty} items in your cart`;
 
 	let itemStr = ''
@@ -55,10 +55,10 @@ function showItems() {
 
 		itemStr += `<li> ${name} $${price} * ${qty} = $${qty * price} </li>`;
 	};
-	
+	// displays item list on page
 	itemList.innerHTML = itemStr;
 
-	// console.log(`Your total in cart: $${getTotal()}`);
+	// displays cart total on page
 	cartTotal.innerHTML = `Your total in cart: $${getTotal()}`
 };
 
@@ -100,7 +100,7 @@ function removeItem(name, qty = 0) {
 };
 
 // ---------------------------------------------
-// ---------------------------------------------
+//example items
 addItem('apple', 0.99);
 addItem('orange', 1.29);
 addItem('opinion', 0.02);
@@ -114,6 +114,12 @@ removeItem('apple', 1)
 
 showItems();
 
+// ---------------------------------------------
+// ---------------------------------------------
+// ---------------------------------------------
+// ---------------------------------------------
+
+// for loop to create each card element and display on page
 // the length of our data determines how many times this loop goes around
 for (let i = 0; i < data.length; i += 1) {
 	// create a new div element and give it a class name
@@ -154,3 +160,12 @@ for (let i = 0; i < data.length; i += 1) {
 	console.log(newDiv);
 
 };
+
+//creates array for all buttons on page
+const all_items_button = Array.from(document.querySelectorAll("button"));
+console.log(all_items_button);
+
+all_items_button.forEach(elt => elt.addEventListener('click', () => {
+	addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
+	showItems();
+  	}));
