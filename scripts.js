@@ -4,24 +4,63 @@ const itemsContainer = document.querySelector('#items');
 
 const cart = [];
 
-const obj = {name:"shoe", price: 9.99, qty: 3}
+// const a = 999;
+// const greeting = 'hello';
+// const place = 'world';
+// const d = 656565;
+// const obj = {a, greeting, place, d};
+
 // console.log(obj);
-// console.log(obj.name);
-// console.log(obj.price);
-// console.log(obj.qty);
-// console.log(obj.price * obj.qty);
+// console.log("***************************");
 
 function addItem(name, price, qty) {
-	const item = {name:name, price:price, qty:qty};
+	for (let i = 0; i < cart.length; i += 1) {
+		if (cart[i].name === name) {
+			cart[i].qty += 1;
+			return;
+		};
+	};
+	const item = {name, price, qty: 1};
 	cart.push(item);
 };
 
+//Show Items
 function showItems() {
-	console.log(`You have ${cart.length} items in your cart`);
+	const qty = getQty();
+	console.log(`You have ${qty} items in your cart`);
+
+	for (let i = 0; i < cart.length; i += 1) {
+		console.log(`- ${cart[i].name} ${cart[i].price} * ${cart[i].qty}`);
+	};
+
+	console.log(`Your total in cart: $${getTotal()}`);
 };
 
-addItem('apple', 0.99, 1);
-addItem('orange', 1.29, 1);
+// Get Qty
+function getQty() {
+	let qty = 0;
+	for (let i =  0; i < cart.length; i += 1) {
+		qty += cart[i].qty;
+	};
+	return qty;
+};
+
+// Get Total
+function getTotal() {
+	let total = 0;
+	for (let i = 0; i < cart.length; i += 1) {
+		total += cart[i].price * cart[i].qty;
+	};
+	return total.toFixed(2);
+};
+
+addItem('apple', 0.99);
+addItem('orange', 1.29);
+addItem('opinion', 0.02);
+addItem('apple', 0.99);
+addItem('frisbee', 9.92);
+addItem('apple', 0.99);
+addItem('orange', 1.29);
 
 showItems();
 
