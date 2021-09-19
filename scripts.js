@@ -2,6 +2,18 @@ import data from './data.js'
 
 const itemsContainer = document.querySelector('#items');
 
+const itemList = document.getElementById('item-list');
+itemList.innerHTML = '<li> Hello World</li>';
+console.log(itemList);
+
+const cartQty = document.getElementById('cart-qty');
+
+console.log(cartQty);
+
+const cartTotal = document.getElementById('cart-total');
+console.log(cartTotal)
+
+
 const cart = [];
 
 // const a = 999;
@@ -30,13 +42,24 @@ function addItem(name, price, qty) {
 // Show Items
 function showItems() {
 	const qty = getQty();
-	console.log(`You have ${qty} items in your cart`);
+	// console.log(`You have ${qty} items in your cart`);
+	cartQty.innerHTML = `You have ${qty} items in your cart`;
+
+	let itemStr = ''
 
 	for (let i = 0; i < cart.length; i += 1) {
-		console.log(`- ${cart[i].name} ${cart[i].price} * ${cart[i].qty}`);
-	};
+		//console.log(`- ${cart[i].name} $${cart[i].price} * ${cart[i].qty}`);
 
-	console.log(`Your total in cart: $${getTotal()}`);
+		// cart[i] looks like this >>> { name: 'apple', price: 0.99, qty: 3}
+		const {name, price, qty} = cart[i]
+
+		itemStr += `<li> ${name} $${price} * ${qty} = $${qty * price} </li>`;
+	};
+	
+	itemList.innerHTML = itemStr;
+
+	// console.log(`Your total in cart: $${getTotal()}`);
+	cartTotal.innerHTML = `Your total in cart: $${getTotal()}`
 };
 
 // ---------------------------------------------
