@@ -1,9 +1,9 @@
-import data from './data.js'
+import data from './data.js';
 
 const itemsContainer = document.querySelector('#items');
 
 const itemList = document.getElementById('item-list');
-itemList.innerHTML = '<li> Hello World</li>';
+itemList.innerHTML = '';
 console.log(itemList);
 
 const cartQty = document.getElementById('cart-qty');
@@ -11,26 +11,45 @@ const cartQty = document.getElementById('cart-qty');
 console.log(cartQty);
 
 const cartTotal = document.getElementById('cart-total');
-console.log(cartTotal)
+console.log(cartTotal);
 
 
 const cart = [];
 
-// const a = 999;
-// const greeting = 'hello';
-// const place = 'world';
-// const d = 656565;
-// const obj = {a, greeting, place, d};
+// ---------------------------------------------
+// Handle change events on update input
+itemList.onchange = function(e) {
+	if (e.target && e.target.classList.contains('update')) {
+		const name = e.target.dataset.name;
+		const qty = parseInt(e.target.value);
+		updateCart(name, qty);
+	};
+};
 
-// console.log(obj);
-// console.log("***************************");
+// ---------------------------------------------
+// Handle clicks on list
+itemList.onclick = function(e) {
+	// console.log("Beep Boop!");
+	// console.log(e.target);
+	if(e.target && e.target.classList.contains('remove')) {
+		const name = e.target.dataset.name;
+		removeItem(name);
+	} else if (e.target && e.target.classList.contains('add-one')) {
+		const name = e.target.dataset.name;
+		addItem(name);
+	} else if (e.target && e.target.classList.contains('remove-one')) {
+		const name = e.target.dataset.name;
+		removeItem(name, 1);
+	};
+};
 
 // ---------------------------------------------
 // Add Items
-function addItem(name, price, qty) {
+function addItem(name, price) {
 	for (let i = 0; i < cart.length; i += 1) {
 		if (cart[i].name === name) {
 			cart[i].qty += 1;
+			showItems();
 			return;
 		};
 	};
@@ -45,21 +64,34 @@ function showItems() {
 	//displays quantity of items on page
 	cartQty.innerHTML = `You have ${qty} items in your cart`;
 
-	let itemStr = ''
+	let itemStr = '';
 
 	for (let i = 0; i < cart.length; i += 1) {
 		//console.log(`- ${cart[i].name} $${cart[i].price} * ${cart[i].qty}`);
 
 		// cart[i] looks like this >>> { name: 'apple', price: 0.99, qty: 3}
-		const {name, price, qty} = cart[i]
+		const {name, price, qty} = cart[i];
+		const total = qty * price;
 
-		itemStr += `<li> ${name} $${price} * ${qty} = $${qty * price} </li>`;
+		itemStr += `<li> 
+		${name} $${price} * ${qty} = $${total.toFixed(2)} 
+		<button class="remove" data-name="${name}"> 
+		Remove 
+		</button>
+		<button class="add-one" data-name="${name}"> 
+		+
+		</button>
+		<button class="remove-one" data-name="${name}"> 
+		- 
+		</button>
+		<input class="update" type="number" data-name="${name}">
+		</li>`;
 	};
 	// displays item list on page
 	itemList.innerHTML = itemStr;
 
 	// displays cart total on page
-	cartTotal.innerHTML = `Your total in cart: $${getTotal()}`
+	cartTotal.innerHTML = `Your total in cart: $${getTotal()}`;
 };
 
 // ---------------------------------------------
@@ -94,25 +126,40 @@ function removeItem(name, qty = 0) {
 			if (cart[i].qty < 1 || qty === 0) {
 				cart.splice(i, 1);
 			};
-			return
+			showItems();
+			return;
+		};
+	};
+};
+
+// ---------------------------------------------
+function updateCart(name, qty) {
+	for (let i = 0; i < cart.length; i += 1) {
+		if (cart[i].name === name) {
+			if (qty < 1) {
+				removeItem(name);
+			};
+			cart[i].qty = qty;
+			showItems();
+			return;
 		};
 	};
 };
 
 // ---------------------------------------------
 //example items
-addItem('apple', 0.99);
-addItem('orange', 1.29);
-addItem('opinion', 0.02);
-addItem('apple', 0.99);
-addItem('frisbee', 9.92);
-addItem('apple', 0.99);
-addItem('orange', 1.29);
+// addItem('apple', 0.99);
+// addItem('orange', 1.29);
+// addItem('opinion', 0.02);
+// addItem('apple', 0.99);
+// addItem('frisbee', 9.92);
+// addItem('apple', 0.99);
+// addItem('orange', 1.29);
 
-removeItem('frisbee')
-removeItem('apple', 1)
+// removeItem('frisbee')
+// removeItem('apple', 1)
 
-showItems();
+// showItems();
 
 // ---------------------------------------------
 // ---------------------------------------------
@@ -169,3 +216,4 @@ all_items_button.forEach(elt => elt.addEventListener('click', () => {
 	addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
 	showItems();
   	}));
+
